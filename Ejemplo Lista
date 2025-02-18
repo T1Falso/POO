@@ -1,0 +1,141 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ListaInteractiva {
+
+    public static void main(String[] args) {
+
+        List<String> frutas = new ArrayList<>();
+
+
+        Scanner scanner = new Scanner(System.in);
+
+        boolean continuar = true;
+
+        while (continuar) {
+
+            System.out.println("\n--- MENU ---");
+            System.out.println("1. Agregar fruta");
+            System.out.println("2. Mostrar la lista de frutas");
+            System.out.println("3. Reemplazar una fruta por índice");
+            System.out.println("4. Eliminar una fruta (por índice)");
+            System.out.println("5. Eliminar una fruta (por nombre)");
+            System.out.println("6. Limpiar la lista");
+            System.out.println("7. Salir");
+            System.out.print("Elige una opción: ");
+
+
+            int opcion;
+            try {
+                opcion = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor, ingresa un número válido.");
+                continue;
+            }
+
+            switch (opcion) {
+                case 1:
+
+                    System.out.print("Ingresa el nombre de la fruta a agregar: ");
+                    String nuevaFruta = scanner.nextLine();
+                    frutas.add(nuevaFruta);
+                    System.out.println("Fruta agregada: " + nuevaFruta);
+                    break;
+
+                case 2:
+
+                    if (frutas.isEmpty()) {
+                        System.out.println("La lista está vacía.");
+                    } else {
+                        System.out.println("Lista de frutas: " + frutas);
+                    }
+                    break;
+
+                case 3:
+
+                    if (frutas.isEmpty()) {
+                        System.out.println("La lista está vacía, no hay nada que reemplazar.");
+                    } else {
+                        try {
+                            System.out.print("Ingresa el índice de la fruta a reemplazar: ");
+                            int indiceRemplazar = Integer.parseInt(scanner.nextLine());
+
+
+                            if (indiceRemplazar < 0 || indiceRemplazar >= frutas.size()) {
+                                System.out.println("Índice fuera de rango. El tamaño actual es: " + frutas.size());
+                                break;
+                            }
+
+                            System.out.print("Ingresa el nuevo nombre de la fruta: ");
+                            String frutaRemplazo = scanner.nextLine();
+                            frutas.set(indiceRemplazar, frutaRemplazo);
+                            System.out.println("Fruta en índice " + indiceRemplazar + " reemplazada con: " + frutaRemplazo);
+
+                        } catch (NumberFormatException e) {
+                            System.out.println("Por favor, ingresa un índice válido (número).");
+                        }
+                    }
+                    break;
+
+                case 4:
+
+                    if (frutas.isEmpty()) {
+                        System.out.println("La lista está vacía, no hay nada que eliminar.");
+                    } else {
+                        try {
+                            System.out.print("Ingresa el índice de la fruta a eliminar: ");
+                            int indiceEliminar = Integer.parseInt(scanner.nextLine());
+
+                            if (indiceEliminar < 0 || indiceEliminar >= frutas.size()) {
+                                System.out.println("Índice fuera de rango. El tamaño actual es: " + frutas.size());
+                                break;
+                            }
+
+                            String frutaEliminada = frutas.remove(indiceEliminar);
+                            System.out.println("Se eliminó la fruta: " + frutaEliminada);
+
+                        } catch (NumberFormatException e) {
+                            System.out.println("Por favor, ingresa un índice válido (número).");
+                        }
+                    }
+                    break;
+
+                case 5:
+
+                    if (frutas.isEmpty()) {
+                        System.out.println("La lista está vacía, no hay nada que eliminar.");
+                    } else {
+                        System.out.print("Ingresa el nombre de la fruta a eliminar: ");
+                        String frutaAEliminar = scanner.nextLine();
+
+                        boolean fueEliminada = frutas.remove(frutaAEliminar);
+                        if (fueEliminada) {
+                            System.out.println("Se eliminó la fruta: " + frutaAEliminar);
+                        } else {
+                            System.out.println("No se encontró la fruta: " + frutaAEliminar + " en la lista.");
+                        }
+                    }
+                    break;
+
+                case 6:
+
+                    frutas.clear();
+                    System.out.println("Se eliminaron todos los elementos de la lista.");
+                    break;
+
+                case 7:
+
+                    continuar = false;
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida. Por favor, ingresa un número del 1 al 7.");
+                    break;
+            }
+        }
+
+        scanner.close();
+    }
+}
