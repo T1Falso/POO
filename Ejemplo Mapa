@@ -1,0 +1,106 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class IngresarDatos {
+    public IngresarDatos() {
+    }
+
+    public static void main(String[] args) {
+        Map<String, Integer> edades = new HashMap();
+        Scanner scanner = new Scanner(System.in);
+        boolean continuar = true;
+
+        while(continuar) {
+            System.out.println("\n-------------- MENU --------------");
+            System.out.println("1. Ingresar Datos");
+            System.out.println("2. Buscar Dato por Edad");
+            System.out.println("3. Eliminar Dato");
+            System.out.println("4. Mostrar Mapa Completo");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion;
+            try {
+                opcion = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException var11) {
+                System.out.println("Ingrese un numero valido");
+                continue;
+            }
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese un Nombre: ");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Ingrese un Edad: ");
+                    int edad = Integer.parseInt(scanner.nextLine());
+                    edades.put(nombre, edad);
+                    System.out.print("nombre agregado: " + nombre + " " + edad);
+                    break;
+                case 2:
+                    if (edades.isEmpty()) {
+                        System.out.println("El mapa está vacío.");
+                    } else {
+                        System.out.print("Ingrese la edad a buscar: ");
+
+                        try {
+                            int edadBuscar = Integer.parseInt(scanner.nextLine());
+                            boolean encontrado = false;
+
+                            for(Map.Entry<String, Integer> entry : edades.entrySet()) {
+                                if ((Integer)entry.getValue() == edadBuscar) {
+                                    System.out.println("Persona encontrada con edad " + edadBuscar + ": " + (String)entry.getKey());
+                                    encontrado = true;
+                                }
+                            }
+
+                            if (!encontrado) {
+                                System.out.println("No se encontró ninguna persona con la edad " + edadBuscar);
+                            }
+                        } catch (NumberFormatException var12) {
+                            System.out.println("Ingrese un número válido.");
+                        }
+                    }
+                    break;
+                case 3:
+                    if (edades.isEmpty()) {
+                        System.out.println("El mapa está vacío, no hay datos para eliminar.");
+                    } else {
+                        System.out.print("Ingrese el nombre de la persona que desea eliminar: ");
+                        String nombreEliminar = scanner.nextLine();
+                        if (edades.containsKey(nombreEliminar)) {
+                            edades.remove(nombreEliminar);
+                            System.out.println("El dato de " + nombreEliminar + " ha sido eliminado.");
+                        } else {
+                            System.out.println("No se encontró a " + nombreEliminar + " en los datos.");
+                        }
+                    }
+                    break;
+                case 4:
+                    if (edades.isEmpty()) {
+                        System.out.println("El mapa está vacío, no hay datos para mostrar.");
+                        break;
+                    }
+
+                    System.out.println("+-----------------+-------+");
+                    System.out.println("| Nombre          | Edad  |");
+                    System.out.println("+-----------------+-------+");
+
+                    for(Map.Entry<String, Integer> entry : edades.entrySet()) {
+                        System.out.printf("| %-15s | %-5d |\n", entry.getKey(), entry.getValue());
+                    }
+
+                    System.out.println("+-----------------+-------+");
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    continuar = false;
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        }
+
+        scanner.close();
+    }
+}
